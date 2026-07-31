@@ -1,10 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { Autoplay, Pagination } from "swiper/modules";
 
 import {
   FaFacebookF,
@@ -14,7 +15,6 @@ import {
 } from "react-icons/fa";
 
 import "swiper/css";
-import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 interface Hero {
@@ -39,23 +39,31 @@ interface HeroSliderProps {
 export default function HeroSlider({
   heroes,
 }: HeroSliderProps) {
+
+  const [swiper, setSwiper] = useState<any>(null);
   return (
-    <Swiper
-      modules={[Autoplay, Navigation, Pagination]}
-      autoplay={{
-        delay: 5000,
-      }}
-      navigation
-      pagination={{
-        clickable: true,
-      }}
-      loop
-      className="hero-slider h-screen"
-    >{heroes.map((hero) => (
+  <Swiper
+    modules={[Autoplay, Pagination]}
+    onSwiper={setSwiper}
+    loop={heroes.length > 1}
+    speed={1000}
+    autoplay={{
+      delay: 5000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    }}
+    pagination={{
+      clickable: true,
+    }}
+    className="hero-slider h-screen"
+  >
+    {heroes.map((hero) => (
   <SwiperSlide key={hero._id}>
+
     <section className="relative h-screen w-full overflow-hidden">
 
-      {/* Background Image */}
+      {/* Background */}
+
       <Image
         src={hero.backgroundImage}
         alt={hero.title}
@@ -64,51 +72,59 @@ export default function HeroSlider({
         className="object-cover"
       />
 
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
+      {/* Overlay */}
 
-      {/* Content Container */}
-      <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-6 lg:px-12">
+      <div className="absolute inset-0 bg-black/55" />
+
+      {/* Content */}
+
+      <div className="relative z-20 mx-auto flex h-full max-w-7xl items-center px-6 lg:px-12">
 
         <div className="max-w-3xl">
 
           {/* Subtitle */}
-          <span className="mb-5 inline-block rounded-full border border-white/30 bg-white/10 px-5 py-2 text-sm font-semibold uppercase tracking-[0.25em] text-cyan-400 backdrop-blur-md">
+
+          <span className="mb-6 inline-block rounded-full border border-cyan-400 px-5 py-2 text-sm font-semibold uppercase tracking-[4px] text-cyan-400 backdrop-blur">
             {hero.subTitle}
           </span>
 
-          {/* Main Title */}
+          {/* Title */}
+
           <h1 className="mb-8 text-5xl font-black uppercase leading-tight text-white md:text-6xl lg:text-7xl">
             {hero.title}
           </h1>
 
           {/* Description */}
-          <p className="max-w-2xl text-lg leading-8 text-gray-200 md:text-xl">
+
+          <p className="max-w-2xl text-lg leading-8 text-gray-200">
             {hero.description}
-          </p>{/* Buttons */}
-<div className="mt-10 flex flex-col gap-4 sm:flex-row">
+          </p>
 
-  <Link
-    href={hero.primaryButtonLink || "#"}
-    className="inline-flex items-center justify-center rounded-full bg-cyan-500 px-8 py-4 text-sm font-semibold uppercase tracking-wider text-white transition-all duration-300 hover:bg-cyan-400 hover:scale-105"
-  >
-    {hero.primaryButtonText}
+          {/* Buttons */}
 
-    <FaArrowRight className="ml-3" />
-  </Link>
+          <div className="mt-10 flex flex-wrap gap-5">
 
-  <Link
-    href={hero.secondaryButtonLink || "#"}
-    className="inline-flex items-center justify-center rounded-full border border-white px-8 py-4 text-sm font-semibold uppercase tracking-wider text-white transition-all duration-300 hover:bg-white hover:text-black"
-  >
-    {hero.secondaryButtonText}
-  </Link>
+            <Link
+              href={hero.primaryButtonLink || "#"}
+              className="inline-flex items-center rounded-full bg-cyan-500 px-8 py-4 font-semibold uppercase tracking-[2px] text-white transition hover:bg-cyan-400"
+            >
+              {hero.primaryButtonText}
 
-</div>
+              <FaArrowRight className="ml-3" />
+            </Link>
 
-</div>
+            <Link
+              href={hero.secondaryButtonLink || "#"}
+              className="inline-flex items-center rounded-full border border-white px-8 py-4 font-semibold uppercase tracking-[2px] text-white transition hover:bg-white hover:text-black"
+            >
+              {hero.secondaryButtonText}
+            </Link>
 
-{/* Social Icons */}
+          </div>
+
+        </div>
+        {/* Social Icons */}
+
 <div className="absolute right-8 top-1/2 hidden -translate-y-1/2 lg:flex">
 
   <div className="flex flex-col gap-5">
@@ -116,35 +132,75 @@ export default function HeroSlider({
     <Link
       href={hero.facebook || "#"}
       target="_blank"
-      className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur-md transition-all duration-300 hover:bg-cyan-500 hover:border-cyan-500"
+      className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur transition hover:bg-cyan-500"
     >
-      <FaFacebookF size={18} />
+      <FaFacebookF />
     </Link>
 
     <Link
       href={hero.instagram || "#"}
       target="_blank"
-      className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur-md transition-all duration-300 hover:bg-cyan-500 hover:border-cyan-500"
+      className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur transition hover:bg-cyan-500"
     >
-      <FaInstagram size={18} />
+      <FaInstagram />
     </Link>
 
     <Link
       href={hero.linkedin || "#"}
       target="_blank"
-      className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur-md transition-all duration-300 hover:bg-cyan-500 hover:border-cyan-500"
+      className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur transition hover:bg-cyan-500"
     >
-      <FaLinkedinIn size={18} />
+      <FaLinkedinIn />
     </Link>
 
   </div>
 
 </div>
-      </div>
-    </section>
-  </SwiperSlide>
-))}
 
+</div>
+
+</section>
+
+</SwiperSlide>
+))}
+{/* Bottom Navigation */}
+
+<div className="absolute bottom-8 left-0 z-30 w-full">
+
+  <div className="mx-auto flex max-w-5xl items-center justify-between px-8">
+
+    {/* Prev */}
+
+    <button
+      onClick={() => swiper?.slidePrev()}
+      className="text-sm font-semibold uppercase tracking-[4px] text-white transition hover:text-cyan-400"
+    >
+      PREV
+    </button>
+
+    {/* Pagination */}
+
+    <div className="flex items-center gap-5">
+
+      <div className="h-px w-28 bg-white/40" />
+
+      <div className="swiper-pagination !relative !w-auto" />
+
+      <div className="h-px w-28 bg-white/40" />
+
+    </div>
+
+    {/* Next */}
+
+    <button
+      onClick={() => swiper?.slideNext()}
+      className="text-sm font-semibold uppercase tracking-[4px] text-white transition hover:text-cyan-400"
+    >
+      NEXT
+    </button>
+
+  </div>
+
+</div>
 </Swiper>
-  );
-}
+)}
