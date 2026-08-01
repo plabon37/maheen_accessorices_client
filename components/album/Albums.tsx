@@ -33,20 +33,24 @@ export default async function Albums() {
   return (
     <section className="bg-white rounded-24">
 
-      <div className="mx-auto max-w-auto px-6">
+  {/* Header */}
 
-        <AlbumsHeader />
+  <div className="mx-auto w-full max-w-screen-2xl px-6 lg:px-8 xl:px-10">
 
-        <div className="mt-20">
+    <AlbumsHeader />
 
-          <AlbumSlider
-            albums={albums}
-          />
+  </div>
 
-        </div>
+  {/* Slider */}
 
-      </div>
+  <div className="mt-20 w-full">
 
-    </section>
+    <AlbumSlider
+      albums={albums}
+    />
+
+  </div>
+
+</section>
   );
 }

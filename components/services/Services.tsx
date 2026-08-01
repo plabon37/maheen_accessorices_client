@@ -33,30 +33,30 @@ export default async function Services() {
   return (
     <section className="relative overflow-hidden bg-[#F6F9FC] py-24 lg:py-32">
 
-      {/* Background Shape */}
+  {/* Background Shape */}
 
-      <div className="absolute inset-0">
+  <div className="absolute inset-0">
 
-        <div className="absolute -left-52 top-10 h-[420px] w-[420px] rounded-full bg-blue-100 blur-[130px]" />
+    <div className="absolute -left-52 top-10 h-[420px] w-[420px] rounded-full bg-blue-100 blur-[130px]" />
 
-        <div className="absolute -right-40 bottom-0 h-[350px] w-[350px] rounded-full bg-cyan-100 blur-[120px]" />
+    <div className="absolute -right-40 bottom-0 h-[350px] w-[350px] rounded-full bg-cyan-100 blur-[120px]" />
 
-      </div>
+  </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
+  <div className="relative z-10 mx-auto w-full max-w-screen-2xl px-6 lg:px-8 xl:px-10">
 
-        <ServicesHeader />
+    <ServicesHeader />
 
-        <div className="mt-20">
+    <div className="mt-20">
 
-          <ServiceGrid
-            services={services}
-          />
+      <ServiceGrid
+        services={services}
+      />
 
-        </div>
+    </div>
 
-      </div>
+  </div>
 
-    </section>
+</section>
   );
 }
